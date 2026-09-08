@@ -297,6 +297,27 @@
             setStep(panel, parseInt(event.currentTarget.getAttribute("data-step"), 10));
           });
         }
+
+        var phones = panel.querySelector(".wt-phones");
+        if (phones && parseInt(panel.getAttribute("data-steps") || "1", 10) > 1) {
+          var touchX = 0;
+          var touchY = 0;
+          phones.addEventListener("touchstart", function (event) {
+            var touch = event.changedTouches && event.changedTouches[0];
+            if (!touch) return;
+            touchX = touch.clientX;
+            touchY = touch.clientY;
+          }, { passive: true });
+          phones.addEventListener("touchend", function (event) {
+            if (!window.matchMedia("(max-width: 768px)").matches) return;
+            var touch = event.changedTouches && event.changedTouches[0];
+            if (!touch) return;
+            var dx = touch.clientX - touchX;
+            var dy = touch.clientY - touchY;
+            if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+            setStep(panel, parseInt(panel.getAttribute("data-step") || "0", 10) + (dx < 0 ? 1 : -1));
+          }, { passive: true });
+        }
       })(panels[p]);
     }
 

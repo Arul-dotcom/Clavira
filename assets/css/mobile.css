@@ -162,13 +162,24 @@
     padding-bottom: 3.5rem;
   }
 
-  .tag {
+  .tag,
+  .pv__tag,
+  .framework__tag,
+  .walkthrough__tag,
+  .impact__tag {
     position: relative;
     left: auto;
     top: auto;
-    width: auto;
+    display: flex;
+    width: fit-content;
     max-width: 100%;
     margin: 0 auto 1.5rem;
+    padding: 0.4375rem 1.25rem;
+  }
+
+  .tag__label {
+    flex: none;
+    width: auto;
   }
 
   .section-title,
@@ -540,8 +551,6 @@
 
   .walkthrough__tag {
     left: auto;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .wt-switch {
@@ -702,7 +711,7 @@
      -------------------------------------------------------------------------- */
 
   .impact__tag {
-    width: auto;
+    width: fit-content;
   }
 
   .stat,

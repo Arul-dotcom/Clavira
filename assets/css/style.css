@@ -1,0 +1,2076 @@
+/* ==========================================================================
+   Clariva — OG page
+   Figma: Lab Diagnostic Project / canvas "og" / frame "Clariva " #1094:5248
+   Base artboard: 1440 x 1165 (content extent), fill #000000
+
+   SCALING MODEL
+   Every dimension below is the exact Figma pixel value divided by 16 and
+   expressed in rem. The root font-size tracks the viewport (1 rem = 16px at
+   1440px wide), so the artboard scales proportionally at every width without
+   any element being moved, reordered or resized independently.
+
+   Scaling stops at a 600px artboard so type stays legible on phones; below
+   that the artboard keeps its proportions and the page scrolls horizontally.
+   ========================================================================== */
+
+:root {
+  /* Artboard ------------------------------------------------------------ */
+  --stage-width: 90rem;          /* 1440 */
+  --stage-height: 328rem;        /* 5248 */
+  --masthead-height: 5.1875rem;  /* 83 = 17 + 49 + 17 */
+
+  /* Type ---------------------------------------------------------------- */
+  --font-display: "Archivo", sans-serif;
+  --font-body: "Product Sans Medium", "Product Sans", "Jost", "Archivo", sans-serif;
+  --font-label: "Zoho Puvi", "Puvi", "Inter", "Archivo", sans-serif;
+  --font-value: "Avenir LT Pro", "Avenir Next", "Avenir", "Nunito Sans", "Archivo", sans-serif;
+  --font-heading: "HK Nova", "Hanken Grotesk", "Archivo", sans-serif;
+  --font-heading-accent: "Product Sans Black", "Jost", "Archivo", sans-serif;
+  --font-banner: "Jura", "Archivo", sans-serif;
+  --font-script: "Caveat", cursive;
+  --font-note: "Helvetica", "Arial", sans-serif;
+  --font-card-title: "KoHo", "Archivo", sans-serif;
+  --font-card-body: "Afacad", "Archivo", sans-serif;
+  --font-stat: "Red Rose", "Archivo", sans-serif;
+  --font-stat-label: "Quicksand", "Archivo", sans-serif;
+  --font-wt-kicker: "Saira", "Archivo", sans-serif;
+  --font-wt-title: "Salsa", "Georgia", serif;
+  --font-wt-chip: "Saira", "Archivo", sans-serif;
+  --font-wt-body: "Aldrich", "Archivo", sans-serif;
+  --font-wt-pager: "Sarpanch", "Archivo", sans-serif;
+
+  /* Colour -------------------------------------------------------------- */
+  --c-page: #000000;
+  --c-white: #ffffff;
+  --c-meta-surface: #0e111b;
+  --c-meta-border: #232323;
+  --c-meta-value: #d7d7d7;
+  --c-connect-surface: #181818;
+  --c-masthead-surface: rgba(0, 0, 0, 0.8);
+  --c-note: #dbdbdb;
+  --c-card-body: #767676;
+  --c-card-border: rgba(255, 255, 255, 0.13);
+  --c-compare-border: #313131;
+  --c-tag-surface: rgba(78, 78, 78, 0.2);
+  --c-tag-border: #021a41;
+  --c-stat-border: #2f2f2f;
+  --c-stat-label: #626262;
+  --c-cta-border: #b4b4b4;
+
+  /* Gradients ------------------------------------------------------------ */
+  --g-eyebrow: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(153, 153, 153, 1) 100%);
+  --g-lede: linear-gradient(90deg, rgba(171, 171, 171, 1) 0%, rgba(162, 161, 161, 1) 100%);
+  --g-nav: linear-gradient(90deg, rgba(133, 130, 130, 1) 0%, rgba(98, 95, 95, 1) 100%);
+  --g-meta-label: linear-gradient(90deg, rgba(112, 108, 108, 1) 0%, rgba(119, 119, 119, 1) 100%);
+  --g-script-problem: linear-gradient(180deg, rgba(204, 204, 204, 1) 0%, rgba(153, 3, 3, 1) 100%);
+  --g-script-solution: linear-gradient(180deg, rgba(204, 204, 204, 1) 0%, rgba(0, 83, 151, 1) 100%);
+
+  /* Motion — same easing as the walkthrough, used on every reveal */
+  --reveal-ease: cubic-bezier(0.45, 0, 0.15, 1);
+  --reveal-duration: 0.55s;
+  --reveal-distance: 1.25rem;            /* 20 */
+  --hover-duration: 0.28s;
+}
+
+/* Root scale. 1.11111vw = 16/1440. The lower bound pins the artboard at 600px
+   wide; the upper bound stops it growing past the 1440 design. JS refines this
+   using clientWidth so a vertical scrollbar cannot cost the artboard width. */
+html {
+  font-size: clamp(6.66667px, 1.11111vw, 16px);
+  scroll-behavior: smooth;
+}
+
+/* --------------------------------------------------------------------------
+   Reset
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  background-color: var(--c-page);
+  color: var(--c-white);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Holds the artboard at its design width. Once the viewport is narrower than
+   the 600px floor the auto margins collapse to zero and the page scrolls. */
+.frame {
+  position: relative;                    /* anchors the footer, which sits
+                                            outside the clipped artboard */
+  width: var(--stage-width);
+  margin: 0 auto;
+}
+
+img,
+video {
+  display: block;
+  max-width: none;
+}
+
+dl,
+dd,
+h1,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Shared gradient-text treatment. */
+.hero__eyebrow,
+.hero__lede,
+.nav__link,
+.meta__label,
+.section-lede,
+.tag__label,
+.compare__label-text,
+.footer__cta-label,
+.footer__link {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-repeat: no-repeat;
+}
+
+/* --------------------------------------------------------------------------
+   Masthead  —  "HEAD BAR" #1094:5268
+   1440 wide · padding 17 85 · rgba(0,0,0,.8) · backdrop blur 6.45
+   -------------------------------------------------------------------------- */
+
+/* Sticky rather than fixed so the bar tracks the content on both axes when a
+   narrow viewport scrolls the artboard horizontally. The negative margin
+   cancels its flow height, letting it sit over the hero exactly as at y0. */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: calc(-1 * var(--masthead-height));
+  padding: 1.0625rem 5.3125rem;          /* 17 85 */
+  background-color: var(--c-masthead-surface);
+  -webkit-backdrop-filter: blur(0.403125rem);
+  backdrop-filter: blur(0.403125rem);    /* 6.45 */
+}
+
+/* "CONTAINER (LOGO,TOP BAR,CONNECT)" #1094:5269 — row · gap 117 · center */
+.masthead__container {
+  display: flex;
+  align-items: center;
+  gap: 7.3125rem;                        /* 117 */
+}
+
+/* "LOGO" #1094:5270 — row · gap 7.7 */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.48125rem;                       /* 7.7 */
+  flex: none;
+}
+
+.logo__mark {
+  width: 2.0125rem;                      /* 32.2 */
+  height: 2.15125rem;                    /* 34.42 */
+  object-fit: fill;
+}
+
+.logo__wordmark {
+  width: 5.03125rem;                     /* 80.5 */
+  height: 0.93rem;                       /* 14.88 */
+  object-fit: fill;
+}
+
+/* "TOP BAR" #1094:5274 — fixed 766 · row · gap 48 */
+.nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;                           /* 40 — room for unclipped labels */
+  width: auto;
+  flex: none;
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  height: 1.3125rem;                     /* 21 */
+  flex: none;
+  padding: 0 0.125rem;                   /* 2 — keep the last glyph unclipped */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;                       /* 16 */
+  white-space: nowrap;
+  background-image: var(--g-nav);
+  opacity: 0.68;
+  transition:
+    opacity var(--hover-duration) var(--reveal-ease),
+    filter var(--hover-duration) var(--reveal-ease);
+}
+
+.nav__link--home,
+.nav__link--problem,
+.nav__link--framework,
+.nav__link--walkthrough,
+.nav__link--impact {
+  width: auto;
+}
+
+.nav__link--impact {
+  position: static;
+  left: auto;
+}
+
+.nav__link.is-active {
+  opacity: 1;
+  background-image: linear-gradient(90deg, #ffffff 0%, #f3f3f3 100%);
+}
+
+/* "CONNECT" #1094:5280 — padding 9 19 · gap 18 · #181818 · radius 14 */
+.connect {
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;                         /* 18 */
+  padding: 0.5625rem 1.1875rem;          /* 9 19 */
+  border-radius: 0.875rem;               /* 14 */
+  background-color: var(--c-connect-surface);
+  flex: none;
+}
+
+.connect__item {
+  display: flex;
+  align-items: center;
+}
+
+.connect__icon {
+  opacity: 1;
+}
+
+.connect__icon--linkedin {
+  width: 3.875rem;                       /* 62 */
+  height: 0.979375rem;                   /* 15.67 */
+  object-fit: fill;
+}
+
+.connect__icon--behance {
+  width: 1.9375rem;                      /* 31 */
+  height: 1.9375rem;                     /* 31 */
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Stage  —  frame "Clariva " #1094:5248
+   -------------------------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  width: var(--stage-width);
+  height: var(--stage-height);
+  margin: 0 auto;
+  overflow: hidden;                      /* Figma frame clips its content */
+  background-color: var(--c-page);
+}
+
+.hero {
+  position: absolute;
+  inset: 0;
+}
+
+/* "background image" #1094:5249 — x0 y-57 · 1440x522 · radius 36 · stretch */
+.hero__backdrop {
+  position: absolute;
+  left: 0;
+  top: -3.5625rem;                       /* -57 */
+  width: 90rem;                          /* 1440 */
+  height: 32.625rem;                     /* 522 */
+  border-radius: 2.25rem;                /* 36 */
+  object-fit: fill;
+}
+
+/* "countiner(header,description,detailpreview)" #1094:5250
+   x291 y127 · 859 wide · column · gap 19 · centred */
+.hero__content {
+  position: absolute;
+  left: 18.1875rem;                      /* 291 */
+  top: 7.9375rem;                        /* 127 */
+  width: 53.6875rem;                     /* 859 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1875rem;                        /* 19 */
+}
+
+/* "header" #1094:5251 — column · gap 8 · centred */
+.hero__heading {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;                           /* 8 */
+}
+
+/* #1094:5252 — Archivo 25/1.15 · gradient white→#999 · opacity .6 */
+.hero__eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5625rem;                  /* 25 */
+  line-height: 1.15;
+  opacity: 0.6;
+  background-image: var(--g-eyebrow);
+}
+
+/* The gradient run inside the string is set at weight 500. */
+.hero__eyebrow-accent {
+  font-weight: 500;
+}
+
+/* #1094:5253 — Archivo 50/1.15 · -0.05em · #FFFFFF · 855 wide */
+.hero__title {
+  width: 53.4375rem;                     /* 855 */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3.125rem;                   /* 50 */
+  line-height: 1.15;
+  letter-spacing: -0.05em;
+  text-align: center;
+  color: var(--c-white);
+}
+
+.hero__word {
+  display: inline-block;
+}
+
+/* #1094:5254 — Product Sans Medium 20/1.51 · gradient #ABABAB→#A2A1A1 */
+.hero__lede {
+  width: 42.0625rem;                     /* 673 */
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.25rem;                    /* 20 */
+  line-height: 1.51;
+  text-align: center;
+  background-image: var(--g-lede);
+}
+
+/* "detail preivew" #1094:5255
+   row · padding 25 38 · gap 53 · #0E111B · 1px #232323 · radius 18 */
+.meta {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: 3.3125rem;                        /* 53 */
+  padding: 1.5625rem 2.375rem;           /* 25 38 */
+  border: 0.0625rem solid var(--c-meta-border);
+  border-radius: 1.125rem;               /* 18 */
+  background-color: var(--c-meta-surface);
+}
+
+.meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8125rem;                        /* 13 */
+  flex: none;
+}
+
+.meta__item--role     { width: 12.875rem; }  /* 206 */
+.meta__item--platform { width: 11.25rem; }   /* 180 */
+.meta__item--domain   { width: 9.8125rem; }  /* 157 */
+.meta__item--tools    { width: 5rem; }       /* 80 */
+
+/* Zoho Puvi 12/1.15 · gradient #706C6C→#777777 */
+.meta__label {
+  font-family: var(--font-label);
+  font-weight: 400;
+  font-size: 0.75rem;                    /* 12 */
+  line-height: 1.15;
+  background-image: var(--g-meta-label);
+}
+
+/* Avenir LT Pro 85 Heavy 18/1.15 · #D7D7D7 */
+.meta__value {
+  margin: 0;
+  font-family: var(--font-value);
+  font-weight: 700;
+  font-size: 1.125rem;                   /* 18 */
+  line-height: 1.15;
+  color: var(--c-meta-value);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Showcase  —  "mockup 1" #1106:21
+   x173 y550 · 1094x615 · fill / cover
+   -------------------------------------------------------------------------- */
+
+.showcase {
+  position: absolute;
+  left: 10.8125rem;                      /* 173 */
+  top: 34.375rem;                        /* 550 */
+  width: 68.375rem;                      /* 1094 */
+  height: 38.4375rem;                    /* 615 */
+}
+
+.showcase__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: var(--c-page);
+}
+
+.showcase__device {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Shared section furniture
+   -------------------------------------------------------------------------- */
+
+/* "hyperlink tag" pill — #1115:1048 / #1115:1142
+   199 wide · padding 7 25 · rgba(78,78,78,.2) · 2px #021A41 · radius 26 */
+.tag {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;                         /* 2 */
+  width: 12.4375rem;                     /* 199 */
+  padding: 0.4375rem 1.5625rem;          /* 7 25 */
+  border-radius: 1.625rem;               /* 26 */
+  background-color: var(--c-tag-surface);
+  /* Inset rather than a border so the 2px stroke sits inside the 199x35 box,
+     matching how Figma draws it. */
+  box-shadow: inset 0 0 0 0.125rem var(--c-tag-border);
+}
+
+.tag__icon {
+  width: 1.3125rem;                      /* 21 */
+  height: 1.3125rem;
+  flex: none;
+  object-fit: cover;
+}
+
+.tag__label {
+  flex: 1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;                       /* 16 */
+  text-align: center;
+  white-space: nowrap;                   /* the Figma text node hugs, never wraps */
+  background-image: var(--g-nav);
+}
+
+.tag__label--medium {
+  font-weight: 500;
+}
+
+/* HK Nova 40/1.15 with a Product Sans Black 45 run — #1115:1047 / #1115:1108 */
+.section-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 2.5rem;                     /* 40 */
+  line-height: 1.15;
+  text-align: center;
+  color: var(--c-white);
+}
+
+.section-title strong {
+  font-family: var(--font-heading-accent);
+  font-weight: 900;
+  font-size: 2.8125rem;                  /* 45 */
+}
+
+/* Product Sans Medium 20/1.51 — #1115:1045 / #1115:1106 */
+.section-lede {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.25rem;                    /* 20 */
+  line-height: 1.51;
+  text-align: center;
+  background-image: var(--g-lede);
+}
+
+/* --------------------------------------------------------------------------
+   Problem & Vision  —  #1115:941
+   y1266 · 1440x769
+   -------------------------------------------------------------------------- */
+
+.hero {
+  scroll-margin-top: 0;
+}
+
+.pv,
+.framework,
+.walkthrough,
+.impact,
+.footer {
+  scroll-margin-top: var(--masthead-height);
+}
+
+.pv {
+  position: absolute;
+  left: 0;
+  top: 79.125rem;                        /* 1266 */
+  width: 90rem;                          /* 1440 */
+  height: 48.0625rem;                    /* 769 */
+}
+
+/* "Design pattern" #1115:942 — x41 y104.2 · 1357.38x450.61 */
+.pv__pattern {
+  position: absolute;
+  left: 2.5625rem;                       /* 41 */
+  top: 6.5125rem;                        /* 104.2 */
+  width: 84.83625rem;                    /* 1357.38 */
+  height: 28.163125rem;                  /* 450.61 */
+}
+
+.pv__tag {
+  left: 38.8125rem;                      /* 621 */
+  top: 0.125rem;                         /* 2 */
+}
+
+/* "header" #1115:1044 — x433 y66 · 574 wide · column · gap 2 · centred */
+.pv__header {
+  position: absolute;
+  left: 27.0625rem;                      /* 433 */
+  top: 4.125rem;                         /* 66 */
+  width: 35.875rem;                      /* 574 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;                         /* 2 */
+}
+
+/* Title sits in a fixed 507x113 box — #1115:1046 */
+.pv__header .section-title {
+  width: 31.6875rem;                     /* 507 */
+  height: 7.0625rem;                     /* 113 */
+}
+
+.pv__lede {
+  align-self: stretch;
+  height: 4.5625rem;                     /* 73 */
+}
+
+/* "compare table" #1115:973 — x288 y298 · row · gap 27 */
+.compare {
+  position: absolute;
+  left: 18rem;                           /* 288 */
+  top: 18.625rem;                        /* 298 */
+  display: flex;
+  align-items: center;
+  gap: 1.6875rem;                        /* 27 */
+}
+
+/* Cards #1115:974 / #1115:998 — 419x470 · 1px #313131 · radius 20 */
+.compare__card {
+  position: relative;
+  width: 26.1875rem;                     /* 419 */
+  height: 29.375rem;                     /* 470 */
+  border-radius: 1.25rem;                /* 20 */
+  overflow: hidden;                      /* the banner overhangs both edges */
+  /* Inset stroke keeps children measured from the card origin, as in Figma. */
+  box-shadow: inset 0 0 0 0.0625rem var(--c-compare-border);
+}
+
+.compare__card--problem {
+  background-image: linear-gradient(137deg, rgba(182, 0, 3, 0.6) 0%, rgba(80, 0, 1, 0.6) 100%);
+}
+
+.compare__card--solution {
+  background-image: linear-gradient(136deg, rgba(0, 43, 115, 0.6) 4%, rgba(0, 93, 248, 0.6) 100%);
+}
+
+/* Banner ribbons #1115:975 / #1115:999 — 485x67 · rgba(255,255,255,.1) */
+.compare__banner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 30.3125rem;                     /* 485 */
+  height: 4.1875rem;                     /* 67 */
+  border-radius: 2.5rem 0 0 2.5rem;      /* 40 0 0 40 */
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.compare__banner--problem {
+  left: -2.0625rem;                      /* -33 */
+  top: 2.03rem;                          /* 32.48 */
+  padding-left: 2.8125rem;               /* inner row x45 */
+  gap: 0;
+}
+
+.compare__banner--solution {
+  left: -2.061875rem;                    /* -32.99 */
+  top: 1.93875rem;                       /* 31.02 */
+  padding-left: 4.375rem;                /* inner row x70 */
+  gap: 0.375rem;                         /* 6 */
+}
+
+.compare__badge {
+  width: 3.4375rem;                      /* 55 */
+  height: 3.4375rem;
+  flex: none;
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+/* Jura Bold 20/1.15 · -0.04em · #FFFFFF */
+.compare__banner-title {
+  margin: 0;
+  font-family: var(--font-banner);
+  font-weight: 700;
+  font-size: 1.25rem;                    /* 20 */
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  color: var(--c-white);
+}
+
+.compare__banner-title--problem {
+  width: 21.3125rem;                     /* 341 */
+  text-align: center;
+}
+
+.compare__banner-title--solution {
+  text-align: left;
+}
+
+/* Inner panels #1115:979 / #1115:1003 — x26.5 y120 · 367x325 · radius 20 */
+.compare__body {
+  position: absolute;
+  left: 1.65625rem;                      /* 26.5 */
+  top: 7.5rem;                           /* 120 */
+  width: 22.9375rem;                     /* 367 */
+  height: 20.3125rem;                    /* 325 */
+  border-radius: 1.25rem;                /* 20 */
+  box-shadow: inset 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.compare__body--problem {
+  background-image: linear-gradient(-47deg, rgba(0, 0, 0, 0.71) 0%, rgba(39, 0, 0, 0.71) 100%);
+}
+
+.compare__body--solution {
+  background-color: rgba(0, 0, 0, 0.48);
+}
+
+/* Lists #1115:980 / #1115:1023 — 329 wide · column · gap 18 */
+.compare__list {
+  position: absolute;
+  left: 1.25rem;                         /* 20 */
+  width: 20.5625rem;                     /* 329 */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;                         /* 18 */
+}
+
+.compare__list--problem { top: 1.125rem; }  /* 18 */
+.compare__list--solution { top: 1.625rem; } /* 26 */
+
+.compare__item {
+  position: relative;
+}
+
+.compare__item--tall  { height: 5.375rem; }  /* 86 */
+.compare__item--short { height: 5rem; }      /* 80 */
+.compare__item--mid   { height: 4.0625rem; } /* 65 */
+
+/* Icon + script label row — gap 8 */
+.compare__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;                           /* 8 */
+  margin: 0;
+}
+
+.compare__icon {
+  width: 1.625rem;                       /* 26 */
+  height: 1.625rem;
+  flex: none;
+  object-fit: cover;
+}
+
+/* Caveat Bold 25/1.51 */
+.compare__label-text {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: 1.5625rem;                  /* 25 */
+  line-height: 1.51;
+  white-space: nowrap;
+}
+
+.compare__label-text--problem  { background-image: var(--g-script-problem); }
+.compare__label-text--solution { background-image: var(--g-script-solution); }
+
+/* Helvetica Bold Oblique 14/1.51 · #DBDBDB */
+.compare__desc {
+  position: absolute;
+  margin: 0;
+  font-family: var(--font-note);
+  font-weight: 700;
+  font-style: oblique;
+  font-size: 0.875rem;                   /* 14 */
+  line-height: 1.51;
+  color: var(--c-note);
+}
+
+.compare__desc--p1 { left: 2.370625rem; top: 2.75rem; width: 18.191875rem; }  /* 37.93 44 291.07 */
+.compare__desc--p2 { left: 2.333125rem; top: 2.75rem; width: 18.229375rem; }  /* 37.33 44 291.67 */
+.compare__desc--p3 { left: 2.511875rem; top: 2.375rem; width: 18.050625rem; } /* 40.19 38 288.81 */
+.compare__desc--s1 { left: 2.6875rem; top: 2.75rem; width: 20.625rem; }       /* 43 44 330 */
+.compare__desc--s2 { left: 2.6875rem; top: 2.75rem; width: 16.375rem; }       /* 43 44 262 */
+.compare__desc--s3 { left: 2.6875rem; top: 2.375rem; width: 17.0625rem; }     /* 43 38 273 */
+
+/* Corner marks #1115:996 / #1115:997 — 16.41 square at y445 */
+.compare__dot {
+  position: absolute;
+  top: 27.8125rem;                       /* 445 */
+  width: 1.025625rem;                    /* 16.41 */
+  height: 1.025625rem;
+  object-fit: cover;
+}
+
+.compare__dot--start { left: 0.4825rem; }    /* 7.72 */
+.compare__dot--end   { left: 24.67875rem; }  /* 394.86 */
+
+/* --------------------------------------------------------------------------
+   Design Framework  —  #1115:1100
+   y2136 · 1440x873
+   -------------------------------------------------------------------------- */
+
+.framework {
+  position: absolute;
+  left: 0;
+  top: 131.1875rem;                      /* 2099 */
+  width: 90rem;                          /* 1440 */
+  height: 47.3125rem;                    /* 757 */
+}
+
+/* "bg image" group #1115:1101 — x171 y240 · 1098x402, three plates behind a
+   191.55px layer blur. Exported pre-blurred from Figma because a CSS blur of
+   that radius resolves differently; Figma pads the blurred bounds by the blur
+   radius on every side, so the export anchors at (171-383.5, 240-383.5).
+   The stage clips whatever falls outside the artboard. */
+.framework__glow {
+  position: absolute;
+  left: -13.28125rem;                    /* 171 - 383.5 */
+  top: -8.96875rem;                      /* 240 - 383.5 */
+  width: 116.5625rem;                    /* 1865 */
+  height: 73.0625rem;                    /* 1169 */
+}
+
+.framework__tag {
+  left: 38.8125rem;                      /* 621 */
+  top: 3.5rem;                           /* 56 */
+}
+
+/* "header" #1115:1105 — x448 y120 · 544x183 · absolutely placed children */
+.framework__header {
+  position: absolute;
+  left: 28rem;                           /* 448 */
+  top: 7.5rem;                           /* 120 */
+  width: 34rem;                          /* 544 */
+  height: 11.4375rem;                    /* 183 */
+}
+
+.framework__title {
+  position: absolute;
+  left: 0.0625rem;                       /* 1 */
+  top: 0;
+  width: 33.9375rem;                     /* 543 */
+  height: 6.5625rem;                     /* 105 */
+}
+
+.framework__lede {
+  position: absolute;
+  left: 0;
+  top: 6.875rem;                         /* 110 */
+  width: 34rem;                          /* 544 */
+  height: 4.5625rem;                     /* 73 */
+}
+
+/* "bento box" #1115:1109 — x84 y332 · 1273x369 */
+.bento {
+  position: absolute;
+  left: 5.25rem;                         /* 84 */
+  top: 20.75rem;                         /* 332 */
+  width: 79.5625rem;                     /* 1273 */
+  height: 23.0625rem;                    /* 369 */
+}
+
+/* radius 16 · 1px rgba(255,255,255,.13) · shadow 0 4 11.6 rgba(23,23,23,.25) */
+.bento__card {
+  position: absolute;
+  border-radius: 1rem;                   /* 16 */
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 0.0625rem var(--c-card-border),
+    0 0.25rem 0.725rem rgba(23, 23, 23, 0.25);
+}
+
+/* Wide cards #1115:1110 / #1115:1137 — 600x176 */
+.bento__card--family,
+.bento__card--access {
+  width: 37.5rem;                        /* 600 */
+  height: 11rem;                         /* 176 */
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.64) 1%, rgba(67, 67, 67, 0.64) 100%);
+}
+
+/* Tall cards #1115:1128 / #1115:1119 — 307x369 */
+.bento__card--trust,
+.bento__card--clarity {
+  width: 19.1875rem;                     /* 307 */
+  height: 23.0625rem;                    /* 369 */
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.64) 60%, rgba(50, 50, 50, 0.64) 100%);
+}
+
+.bento__card--trust   { left: 0; top: 0; }                          /* 0 0 */
+.bento__card--family  { left: 21.125rem; top: 0.1875rem; }          /* 338 3 */
+.bento__card--access  { left: 21.0625rem; top: 11.8125rem; }        /* 337 189 */
+.bento__card--clarity { left: 60.375rem; top: 0; }                  /* 966 0 */
+
+.bento__orb {
+  position: absolute;
+  border-radius: 10.3125rem;             /* 165 */
+}
+
+.bento__orb--family {
+  left: -1.75rem;                        /* -28 */
+  top: -1.75rem;
+  width: 7.8125rem;                      /* 125 */
+  height: 6.5625rem;                     /* 105 */
+}
+
+.bento__orb--trust {
+  left: 3.75rem;                         /* 60 */
+  top: 1.1875rem;                        /* 19 */
+  width: 11.8125rem;                     /* 189 */
+  height: 11.4375rem;                    /* 183 */
+  opacity: 0.5;
+}
+
+.bento__orb--clarity {
+  left: 2.928125rem;                     /* 46.85 */
+  top: 0.33375rem;                       /* 5.34 */
+  width: 13.45625rem;                    /* 215.3 */
+  height: 13.144375rem;                  /* 210.31 */
+  opacity: 0.5;
+}
+
+/* Each artwork is exported at exactly its Figma box size, so it is stretched
+   rather than cropped — Figma's own fill scaling differs from object-fit:cover. */
+.bento__art {
+  position: absolute;
+  object-fit: fill;
+}
+
+.bento__art--family {
+  left: 22.28rem;                        /* 356.48 */
+  top: 0.26125rem;                       /* 4.18 */
+  width: 14.8775rem;                     /* 238.04 */
+  height: 10.978125rem;                  /* 175.65 */
+  box-shadow: 0 0.2375rem 0.2375rem rgba(0, 93, 248, 0.18);
+}
+
+.bento__art--access {
+  left: 21.42375rem;                     /* 342.78 */
+  top: 0.015625rem;                      /* 0.25 */
+  width: 15.401875rem;                   /* 246.43 */
+  height: 10.968125rem;                  /* 175.49 */
+}
+
+.bento__art--trust {
+  left: 2.815rem;                        /* 45.04 */
+  top: 0.019375rem;                      /* 0.31 */
+  width: 13.558125rem;                   /* 216.93 */
+  height: 12.148125rem;                  /* 194.37 */
+}
+
+.bento__art--clarity {
+  left: 2.554375rem;                     /* 40.87 */
+  top: -0.684375rem;                     /* -10.95 */
+  width: 14.07875rem;                    /* 225.26 */
+  height: 13.244375rem;                  /* 211.91 */
+}
+
+/* KoHo SemiBold 25 · -0.01em · #FFFFFF */
+.bento__title {
+  margin: 0;
+  font-family: var(--font-card-title);
+  font-weight: 600;
+  font-size: 1.5625rem;                  /* 25 */
+  letter-spacing: -0.01em;
+  color: var(--c-white);
+}
+
+/* Afacad Medium 17/1.48 · 0.02em · #767676 */
+.bento__desc {
+  margin: 0;
+  font-family: var(--font-card-body);
+  font-weight: 500;
+  font-size: 1.0625rem;                  /* 17 */
+  line-height: 1.48;
+  letter-spacing: 0.02em;
+  color: var(--c-card-body);
+}
+
+/* Wide-card copy stacks — #1115:1115 / #1115:1138 · gap 14 */
+.bento__text--family,
+.bento__text--access {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;                         /* 14 */
+}
+
+.bento__text--family {
+  left: 0.9375rem;                       /* 15 */
+  top: 1.8125rem;                        /* 29 */
+  width: 20.25rem;                       /* 324 */
+}
+
+.bento__text--access {
+  left: 0.9375rem;                       /* 15 */
+  top: 2.5rem;                           /* 40 */
+  width: 20.5rem;                        /* 328 */
+}
+
+/* "Trust at the Core" panel #1115:1133 — x0 y227 · 308x123 · placed children */
+.bento__text--trust {
+  position: absolute;
+  left: 0;
+  top: 14.1875rem;                       /* 227 */
+  width: 19.25rem;                       /* 308 */
+  height: 7.6875rem;                     /* 123 */
+}
+
+.bento__title--trust {
+  position: absolute;
+  left: 4rem;                            /* 64 */
+  top: 0;
+  width: 11.3125rem;                     /* 181 */
+  text-align: center;
+}
+
+.bento__desc--trust {
+  position: absolute;
+  left: 0.625rem;                        /* 10 */
+  top: 2.4375rem;                        /* 39 */
+  width: 17.9375rem;                     /* 287 */
+  text-align: center;
+}
+
+/* "Clarity in Every Report" stack #1115:1120 — x1 y227 · 308 · centred · gap 14 */
+.bento__text--clarity {
+  position: absolute;
+  left: 0.0625rem;                       /* 1 */
+  top: 14.1875rem;                       /* 227 */
+  width: 19.25rem;                       /* 308 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;                         /* 14 */
+}
+
+.bento__title--clarity {
+  align-self: stretch;
+  text-align: center;
+}
+
+.bento__desc--clarity {
+  width: 17.75rem;                       /* 284 */
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Interactive Walkthrough  —  instance #1143:3393 / component #1143:2975
+   y3110 · 1440x1267
+   Variants: Frame 80 (Flow A) · Frame 81 (Flow B) · Frame 84 (Flow C)
+   -------------------------------------------------------------------------- */
+
+.walkthrough {
+  position: absolute;
+  left: 0;
+  top: 182.5rem;                         /* 2920 */
+  width: 90rem;                          /* 1440 */
+  height: 63.9375rem;                    /* 1023 */
+  overflow: hidden;
+}
+
+/* Decorative orbs group #1143:3005 — x-84.01 y105 · 1540x945.
+   Smart-animate shifts this block down on Flow B (y168) and Flow C (y251).
+   The PNG is keyed on black; lighten punch-through keeps only the blue forms. */
+.walkthrough__deco {
+  position: absolute;
+  left: -5.250625rem;                    /* -84.01 */
+  top: 6.5625rem;                        /* 105 */
+  width: 96.25rem;                       /* 1540 */
+  height: 59.063125rem;                  /* 945.01 */
+  object-fit: fill;
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.walkthrough.is-flow-b .walkthrough__deco { top: 10.5rem; }      /* 168 */
+.walkthrough.is-flow-c .walkthrough__deco { top: 15.6875rem; }   /* 251 */
+
+/* Header column #1143:2977 — x448 y19 · 544 · gap 34 · centred */
+.walkthrough__header {
+  position: absolute;
+  left: 28rem;                           /* 448 */
+  top: 1.1875rem;                        /* 19 */
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;                          /* 20 */
+  width: 34rem;                          /* 544 */
+}
+
+/* Heading stack — fill × 247, tag / title / lede absolutely placed */
+.walkthrough__heading {
+  position: relative;
+  width: 100%;
+  height: 15.4375rem;                    /* 247 */
+}
+
+/* Tag #1143:2982 — x157 y0 · 230 · padding 7 17 · stroke outside */
+.walkthrough__tag {
+  left: 9.8125rem;                       /* 157 */
+  top: 0;
+  width: 14.375rem;                      /* 230 */
+  padding: 0.4375rem 1.0625rem;          /* 7 17 */
+  box-shadow: 0 0 0 0.125rem var(--c-tag-border);
+}
+
+.walkthrough__title {
+  position: absolute;
+  left: 0.0625rem;                       /* 1 */
+  top: 4rem;                             /* 64 */
+  width: 33.9375rem;                     /* 543 */
+  height: 6.5625rem;                     /* 105 */
+}
+
+.walkthrough__lede {
+  position: absolute;
+  left: 0;
+  top: 10.875rem;                        /* 174 */
+  width: 34rem;                          /* 544 */
+  height: 4.5625rem;                     /* 73 */
+}
+
+/* Flow switcher #1143:2986 — padding 4 8 · gap 9 · fill rgba(13,13,13,.89)
+   · 2px #021A41 outside · radius 26 */
+.wt-switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5625rem;                        /* 9 */
+  padding: 0.25rem 0.5rem;               /* 4 8 */
+  border-radius: 1.625rem;               /* 26 */
+  background-color: rgba(13, 13, 13, 0.89);
+  box-shadow: 0 0 0 0.125rem var(--c-tag-border);
+}
+
+.wt-switch__btn {
+  width: auto;
+  min-width: 10rem;                      /* 160 */
+  height: 3.875rem;                      /* 62 */
+  padding: 0 1.15rem;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 1.625rem;               /* 26 */
+  background: transparent;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.125rem;                   /* 18 */
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.66);
+  cursor: pointer;
+}
+
+.wt-switch__btn.is-active {
+  font-weight: 700;
+  color: var(--c-white);
+  background-image: linear-gradient(180deg, #0044b6 0%, #001e50 100%);
+}
+
+/* Stage "i-2" #1143:3000 — x250 y435 · 940x563 · clips the 3-slide stack */
+.walkthrough__stage {
+  position: absolute;
+  left: 15.625rem;                       /* 250 */
+  top: 24.5rem;                          /* 392 */
+  z-index: 1;
+  width: 58.75rem;                       /* 940 */
+  height: 36.4375rem;                    /* 583 — 563 + 20px bezel clearance */
+  overflow: hidden;
+}
+
+/* Inner stack — column, gap 166. Smart-animate translateY 0 / -729 / -1458. */
+.walkthrough__track {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10.375rem;                        /* 166 */
+  width: 58.75rem;                       /* 940 */
+  transition: transform 0.55s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.walkthrough.is-flow-b .walkthrough__track { transform: translateY(-46.8125rem); } /* 749 = 583+166 */
+.walkthrough.is-flow-c .walkthrough__track { transform: translateY(-93.625rem); }  /* 1498 */
+
+.wt-panel {
+  position: relative;
+  flex: none;
+  width: 58.75rem;                       /* 940 */
+  height: 36.4375rem;                    /* 583 */
+}
+
+/* Phone deck — 3 cards share one stack. Classes near / mid / far are poses. */
+.wt-phones {
+  --wt-ease: cubic-bezier(0.45, 0, 0.15, 1);
+  position: absolute;
+  width: 25.0625rem;                     /* 401 */
+  height: 35.1875rem;                    /* 563 */
+}
+
+.wt-phones--a,
+.wt-phones--b,
+.wt-phones--c {
+  top: 0.8125rem;                        /* 13 — Figma phone row */
+  height: 33.583125rem;                  /* 537.33 */
+}
+
+.wt-phones--a { left: 0.75rem; }
+.wt-phones--b { left: 2.823125rem; }
+.wt-phones--c {
+  left: 5.52875rem;                      /* 88.46 */
+  width: 15.456875rem;                   /* 247.31 */
+}
+
+.wt-phone {
+  position: absolute;
+  bottom: 0;
+  overflow: visible;
+  transition:
+    left 0.55s var(--wt-ease),
+    width 0.55s var(--wt-ease),
+    height 0.55s var(--wt-ease),
+    border-radius 0.55s var(--wt-ease),
+    filter 0.55s var(--wt-ease),
+    box-shadow 0.55s var(--wt-ease);
+}
+
+.wt-phone__media,
+.wt-phone__video,
+.wt-phone__dim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.wt-phone__media {
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wt-phone__video {
+  object-fit: cover;
+  background: transparent;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.28s var(--wt-ease);
+}
+
+.wt-phone--near .wt-phone__video.is-ready {
+  opacity: 1;
+}
+
+.wt-phone__dim {
+  z-index: 2;
+  pointer-events: none;
+  background-color: transparent;
+  transition: background-color 0.55s var(--wt-ease);
+}
+
+.wt-phone__bezel {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  object-fit: fill;
+  transition:
+    left 0.55s var(--wt-ease),
+    top 0.55s var(--wt-ease),
+    width 0.55s var(--wt-ease),
+    height 0.55s var(--wt-ease);
+}
+
+/* Queue poses — left = far, middle = next, right = active. */
+.wt-phone--far {
+  left: 0;
+  z-index: 1;
+  width: 12.64625rem;                    /* 202.34 */
+  height: 27.476875rem;                  /* 439.63 */
+  border-radius: 1.627785rem;            /* 26.04 */
+  filter: blur(0.24375rem);
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.48);
+  pointer-events: none;
+}
+
+.wt-phone--far .wt-phone__dim { background-color: rgba(0, 0, 0, 0.89); }
+
+.wt-phone--far .wt-phone__bezel {
+  left: -0.704375rem;
+  top: -0.6325rem;
+  width: 14.054375rem;
+  height: 28.741875rem;
+}
+
+.wt-phone--mid {
+  left: 4.14625rem;                      /* 66.34 */
+  z-index: 2;
+  width: 13.91125rem;                    /* 222.58 */
+  height: 30.225rem;                     /* 483.6 */
+  border-radius: 1.790564rem;
+  filter: blur(0.115625rem);
+  box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.wt-phone--mid .wt-phone__dim { background-color: rgba(0, 0, 0, 0.77); }
+
+.wt-phone--mid .wt-phone__bezel {
+  left: -0.774375rem;
+  top: -0.695625rem;
+  width: 15.46rem;
+  height: 31.615625rem;
+}
+
+.wt-phone--near {
+  left: 9.5575rem;                       /* 152.92 */
+  z-index: 3;
+  pointer-events: none;
+  width: 15.456875rem;                   /* 247.31 */
+  height: 33.583125rem;                  /* 537.33 */
+  border-radius: 1.989515rem;
+  filter: none;
+  box-shadow:
+    0 1.4rem 2.6rem rgba(0, 20, 70, 0.42),
+    0 0 0 0.04rem rgba(255, 255, 255, 0.12);
+}
+
+.wt-phone--near .wt-phone__bezel {
+  left: -0.860625rem;
+  top: -0.7725rem;
+  width: 17.178125rem;
+  height: 35.12875rem;
+}
+
+/* Flow C is a single phone — do not inherit the 3-card front offset. */
+.wt-phones--c .wt-phone--near {
+  left: 0;
+  top: 0;
+  bottom: auto;
+  transform: none;
+  transition: none;
+}
+
+/* Copy column — x472 y97.5 · 468×289 · gap 23 */
+.wt-copy {
+  position: absolute;
+  left: 29.5rem;                         /* 472 */
+  top: 6.09375rem;                       /* 97.5 */
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4375rem;                        /* 23 */
+  width: 29.25rem;                       /* 468 */
+  height: 18.0625rem;                    /* 289 */
+}
+
+.wt-copy__heading {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.wt-copy__kicker {
+  font-family: var(--font-wt-kicker);
+  font-weight: 500;
+  font-size: 1.125rem;                   /* 18 */
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  color: rgba(193, 193, 193, 0.59);
+}
+
+.wt-copy__title {
+  font-family: var(--font-wt-title);
+  font-weight: 400;
+  font-size: 1.875rem;                   /* 30 */
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--c-white);
+}
+
+/* Chip + notes clip — height 125 · gap 20 */
+.wt-copy__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;                         /* 10 */
+  width: 100%;
+  height: 7.8125rem;                     /* 125 */
+  overflow: hidden;
+}
+
+/* Chip window 429×28 · bar 90deg #001E50 → #0044B6 · radius 17 10 10 0 */
+.wt-chip {
+  position: relative;
+  flex: none;
+  width: 26.8125rem;                     /* 429 */
+  height: 1.75rem;                       /* 28 */
+  overflow: hidden;
+  border-radius: 1.0625rem 0.625rem 0.625rem 0; /* 17 10 10 0 */
+  background-image: linear-gradient(90deg, #001e50 0%, #0044b6 100%);
+}
+
+.wt-chip__track {
+  position: absolute;
+  top: 0.15625rem;                       /* 2.5 */
+  left: 0;
+  width: 46.125rem;                      /* 738 */
+  height: 1.5rem;                        /* 24 */
+  transform: translateX(-39.8125rem);    /* -637 — shows "1.Search" */
+  transition: transform 0.55s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.wt-panel.is-step-1 .wt-chip__track { transform: translateX(-20.3125rem); } /* -325 */
+.wt-panel.is-step-2 .wt-chip__track { transform: translateX(0.375rem); }    /* 6 */
+
+.wt-chip__label {
+  position: absolute;
+  top: 0;
+  height: 1.5rem;                        /* 24 */
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  font-family: var(--font-wt-chip);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.25rem;                    /* 20 */
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  background-image: linear-gradient(90deg, rgba(180, 208, 255, 0.91) 0%, rgba(255, 255, 255, 0.91) 73%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: opacity 0.35s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.wt-panel--a.is-step-0 .wt-chip__label--a1,
+.wt-panel--a.is-step-0 .wt-chip__label--a2,
+.wt-panel--a.is-step-1 .wt-chip__label--a1,
+.wt-panel--a.is-step-1 .wt-chip__label--a3,
+.wt-panel--a.is-step-2 .wt-chip__label--a2,
+.wt-panel--a.is-step-2 .wt-chip__label--a3,
+.wt-panel--b.is-step-1 .wt-chip__label--b3 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wt-chip__label--a1 { left: 0; width: 19.25rem; }          /* 308 */
+.wt-chip__label--a2 { left: 20.8125rem; width: 17.875rem; } /* 333 286 */
+.wt-chip__label--b2 { left: 20.8125rem; width: 14.125rem; } /* 333 226 */
+.wt-chip__label--a3 { left: 40.25rem; width: 5.875rem; }    /* 644 94 */
+.wt-chip__label--b3 { left: 40.25rem; width: 11.625rem; }   /* 644 186 */
+.wt-chip__label--c3 { left: 40.25rem; width: 12.75rem; }    /* 644 204 */
+
+.wt-notes {
+  width: 26.8125rem;                     /* 429 */
+  height: 4.8125rem;                     /* 77 — first description visible */
+  overflow: hidden;
+}
+
+.wt-notes__track {
+  display: flex;
+  flex-direction: column;
+  gap: 1.9375rem;                        /* 31 */
+  transition: transform 0.55s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.wt-panel.is-step-1 .wt-notes__track { transform: translateY(-6.75rem); }     /* -108 */
+.wt-panel.is-step-2 .wt-notes__track { transform: translateY(-13.1875rem); }  /* -211 */
+
+.wt-notes__item {
+  flex: none;
+  margin: 0;
+  width: 26.8125rem;                     /* 429 */
+  font-family: var(--font-wt-body);
+  font-weight: 400;
+  font-size: 1rem;                       /* 16 */
+  line-height: 1.48;
+  letter-spacing: 0.02em;
+  color: #c3c3c3;
+}
+
+.wt-notes__item:first-child { height: 4.8125rem; } /* 77 */
+.wt-notes__item:not(:first-child) { height: 4.5rem; } /* 72 */
+
+.wt-notes__item em {
+  font-style: italic;
+}
+
+/* Pager — row, gap 4.5 · Sarpanch Black 17.1 / -0.07em */
+.wt-pager {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.28125rem;                       /* 4.5 */
+}
+
+.wt-pager__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;                       /* 18 */
+  height: 1.125rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wt-pager__chevron {
+  width: 1.125rem;
+  height: 1.125rem;
+  object-fit: contain;
+  mix-blend-mode: screen;                /* drop the PNG's black plate */
+}
+
+.wt-pager__btn--prev .wt-pager__chevron {
+  transform: rotate(180deg);
+}
+
+.wt-pager__count {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-family: var(--font-wt-pager);
+  font-weight: 900;
+  font-size: 1.06875rem;                 /* 17.1 */
+  line-height: 1.2;
+  letter-spacing: -0.07em;
+  color: var(--c-white);
+  white-space: nowrap;
+}
+
+.wt-pager__current,
+.wt-pager__total {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+.wt-pager__current {
+  color: #909090;
+}
+
+/* --------------------------------------------------------------------------
+   UX Impact  —  #1117:1990
+   y4478 · 1440x774
+   -------------------------------------------------------------------------- */
+
+.impact {
+  position: absolute;
+  left: 0;
+  top: 250.4375rem;                      /* 4007 */
+  width: 90rem;                          /* 1440 */
+  height: 48.375rem;                     /* 774 */
+}
+
+/* Narrower than the other two pills — 142 wide, padding 7 24 — #1117:1996 */
+.impact__tag {
+  left: 40.5625rem;                      /* 621 + 28 */
+  top: 2.6875rem;                        /* 43 */
+  width: 8.875rem;                       /* 142 */
+  padding: 0.4375rem 1.5rem;             /* 7 24 */
+}
+
+/* "header" #1117:1992 — x448 y43 · 544x247 · absolutely placed children */
+.impact__header {
+  position: absolute;
+  left: 28rem;                           /* 448 */
+  top: 2.6875rem;                        /* 43 */
+  width: 34rem;                          /* 544 */
+  height: 15.4375rem;                    /* 247 */
+}
+
+.impact__title {
+  position: absolute;
+  left: 0.0625rem;                       /* 1 */
+  top: 4rem;                             /* 64 */
+  width: 33.9375rem;                     /* 543 */
+  height: 6.5625rem;                     /* 105 */
+}
+
+.impact__lede {
+  position: absolute;
+  left: 0;
+  top: 10.875rem;                        /* 174 */
+  width: 34rem;                          /* 544 */
+  height: 4.5625rem;                     /* 73 */
+}
+
+/* Cards #1117:2000 / :2007 / :2042 / :2860 — 304x360 · radius 18, staggered
+   in two rows. Figma gives the stroke per side (0.5 top, 1 sides, 4 bottom);
+   inset shadows keep the absolutely placed artwork measured from the card
+   origin the way a real border would not. */
+.stat {
+  position: absolute;
+  width: 19rem;                          /* 304 */
+  height: 22.5rem;                       /* 360 */
+  border-radius: 1.125rem;               /* 18 */
+  overflow: hidden;                      /* the artwork overhangs the top edge */
+  background-image: linear-gradient(0deg, rgba(0, 42, 112, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%);
+  box-shadow:
+    inset 0 0.03125rem 0 var(--c-stat-border),   /* 0.5 top */
+    inset 0.0625rem 0 0 var(--c-stat-border),    /* 1 left */
+    inset -0.0625rem 0 0 var(--c-stat-border),   /* 1 right */
+    inset 0 -0.25rem 0 var(--c-stat-border);     /* 4 bottom */
+}
+
+.stat--speed   { left: 5.4375rem;  top: 20.125rem; }   /* 87 322 */
+.stat--clarity { left: 25.3125rem; top: 23.5625rem; }  /* 405 377 */
+.stat--trust   { left: 45.1875rem; top: 20.125rem; }   /* 723 322 */
+.stat--access  { left: 65.0625rem; top: 23.5625rem; }  /* 1041 377 */
+
+/* "content" #1117:2001 — x14 y195 · 278 wide · column · gap 11 */
+.stat__content {
+  position: absolute;
+  left: 0.875rem;                        /* 14 */
+  top: 12.1875rem;                       /* 195 */
+  width: 17.375rem;                      /* 278 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.6875rem;                        /* 11 */
+}
+
+.stat__headline {
+  width: 15.9375rem;                     /* 255 */
+}
+
+/* Red Rose Bold 30 · -0.01em · #FFF with a 1px translucent white stroke */
+.stat__figure {
+  margin: 0;
+  font-family: var(--font-stat);
+  font-weight: 700;
+  font-size: 1.875rem;                   /* 30 */
+  letter-spacing: -0.01em;
+  color: var(--c-white);
+  -webkit-text-stroke: 0.0625rem rgba(255, 255, 255, 0.62);
+}
+
+/* Quicksand Bold 18/1.51 · #626262 — the Figma stack uses a -2 gap */
+.stat__label {
+  margin: -0.125rem 0 0;                 /* gap -2 */
+  font-family: var(--font-stat-label);
+  font-weight: 700;
+  font-size: 1.125rem;                   /* 18 */
+  line-height: 1.51;
+  color: var(--c-stat-label);
+}
+
+/* Afacad Medium 16/1.48 · 0.02em · #FFF */
+.stat__body {
+  margin: 0;
+  font-family: var(--font-card-body);
+  font-weight: 500;
+  font-size: 1rem;                       /* 16 */
+  line-height: 1.48;
+  letter-spacing: 0.02em;
+  color: var(--c-white);
+}
+
+/* Bar chart #1117:3207 — x58 y27 · 188.13x153.03 · seven 28.22-wide columns */
+.stat__chart {
+  position: absolute;
+  left: 3.625rem;                        /* 58 */
+  top: 1.6875rem;                        /* 27 */
+  width: 11.758125rem;                   /* 188.13 */
+  height: 9.564375rem;                   /* 153.03 */
+}
+
+.stat__bar {
+  position: absolute;
+  width: 1.76375rem;                     /* 28.22 */
+  border-radius: 0.5625rem;              /* 9 */
+  background-image: radial-gradient(circle at 50% 50%, rgba(0, 96, 240, 0.8) 0%, rgba(0, 55, 138, 0.8) 100%);
+}
+
+.stat__bar--1 { left: 0;             top: 3.555625rem; height: 2.453125rem; }  /* 0      56.89 39.25  */
+.stat__bar--2 { left: 1.4825rem;     top: 2.0675rem;   height: 5.4575rem; }    /* 23.72  33.08 87.32  */
+.stat__bar--3 { left: 3.246875rem;   top: 0.9925rem;   height: 7.6075rem; }    /* 51.95  15.88 121.72 */
+.stat__bar--4 { left: 5.010625rem;   top: 0;           height: 9.564375rem; }  /* 80.17  0     153.03 */
+.stat__bar--5 { left: 6.775rem;      top: 0.9925rem;   height: 7.6075rem; }    /* 108.4  15.88 121.72 */
+.stat__bar--6 { left: 8.51125rem;    top: 2.0675rem;   height: 5.4575rem; }    /* 136.18 33.08 87.32  */
+.stat__bar--7 { left: 9.99375rem;    top: 3.555625rem; height: 2.453125rem; }  /* 159.9  56.89 39.25  */
+
+.stat__art,
+.stat__orb,
+.stat__photo {
+  position: absolute;
+}
+
+.stat__photo {
+  object-fit: cover;
+}
+
+/* Card 2 artwork group #1117:2013 — x38 y-27 · 228.28x236 */
+.stat__art--clarity {
+  left: 2.375rem;                        /* 38 */
+  top: -1.6875rem;                       /* -27 */
+  width: 14.2675rem;                     /* 228.28 */
+  height: 14.75rem;                      /* 236 */
+}
+
+.stat__orb--clarity {
+  left: 0;
+  top: 0;
+  width: 14.2675rem;                     /* 228.28 */
+  height: 14.75rem;                      /* 236 */
+  /* Opacity 0.4 and the 2.55 blur are already in the exported SVG. */
+}
+
+.stat__photo--clarity {
+  left: 2.5625rem;                       /* 41 */
+  top: 2.8125rem;                        /* 45 */
+  width: 9.1875rem;                      /* 147 */
+  height: 9.1875rem;
+}
+
+/* Card 2 labels hug in Figma and stay on one line. The 255 headline box is
+   too narrow for "Instant Report Comprehension", so it was wrapping and
+   pushing the body down. Use the full 278 content width and pin the stack. */
+.stat--clarity .stat__headline {
+  width: 100%;
+}
+
+.stat--clarity .stat__figure {
+  line-height: 1;
+}
+
+.stat--clarity .stat__label {
+  white-space: nowrap;
+}
+
+/* Card 3 artwork group #1117:2049 — x46 y-8 · 212x203 */
+.stat__art--trust {
+  left: 2.875rem;                        /* 46 */
+  top: -0.5rem;                          /* -8 */
+  width: 13.25rem;                       /* 212 */
+  height: 12.6875rem;                    /* 203 */
+}
+
+.stat__orb--trust {
+  left: 0;
+  top: 0;
+  width: 12.6875rem;                     /* 203 */
+  height: 12.6875rem;
+  /* Opacity 0.6 and the 2px blur are already in the exported SVG. */
+}
+
+.stat__photo--trust {
+  left: 0;
+  top: 2.5rem;                           /* 40 */
+  width: 13.25rem;                       /* 212 */
+  height: 8.125rem;                      /* 130 */
+  box-shadow: 0 0.25rem 0.00625rem rgba(0, 0, 0, 0.25);
+}
+
+/* Card 4 — the waves plate sits behind the copy, the wordmark in front */
+.stat__orb--access {
+  left: 1rem;                            /* 16 */
+  top: -2.6875rem;                       /* -43 */
+  width: 16.9375rem;                     /* 271 */
+  height: 16.9375rem;
+  /* The 1.65 blur is already in the exported SVG. */
+}
+
+.stat__photo--access {
+  left: 3.875rem;                        /* 62 */
+  top: 0;
+  width: 11.25rem;                       /* 180 */
+  height: 11.25rem;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Footer  —  #1117:1965
+   y5274 · 1440x419
+   -------------------------------------------------------------------------- */
+
+.footer {
+  position: absolute;
+  left: 0;
+  top: 301.8125rem;                      /* 4829 */
+  width: 90rem;                          /* 1440 */
+  height: 26.1875rem;                    /* 419 */
+}
+
+/* #1117:1968 — x143 y92 (90+53, 38+54) · row · centred · gap 240 */
+.footer__row {
+  position: absolute;
+  left: 8.9375rem;                       /* 143 */
+  top: 5.75rem;                          /* 92 */
+  display: flex;
+  align-items: center;
+  gap: 15rem;                            /* 240 */
+}
+
+/* #1117:1969 — 351 wide · column · gap 17 */
+.footer__contact {
+  width: 21.9375rem;                     /* 351 */
+  display: flex;
+  flex-direction: column;
+  gap: 1.0625rem;                        /* 17 */
+}
+
+.footer__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;                         /* 2 */
+}
+
+/* HK Nova Medium 27/1.15 with a 2px white stroke — #1117:1971 */
+.footer__kicker {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 1.6875rem;                  /* 27 */
+  line-height: 1.15;
+  color: var(--c-white);
+  -webkit-text-stroke: 0.125rem var(--c-white);
+}
+
+/* Jura Bold 70/1.15 · centred — #1117:1972 */
+.footer__shout {
+  margin: 0;
+  font-family: var(--font-banner);
+  font-weight: 700;
+  font-size: 4.375rem;                   /* 70 */
+  line-height: 1.15;
+  text-align: center;
+  color: var(--c-white);
+}
+
+/* #1117:1973 — 237.6 wide · column · gap 6 · packed left */
+.footer__actions {
+  width: 14.85rem;                       /* 237.6 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;                         /* 6 */
+}
+
+/* White pill holds LinkedIn, Behance and Gmail */
+.footer__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.125rem;                         /* 18 */
+  padding: 0.75rem 1.5rem;               /* 12 24 */
+  border-radius: 1.95rem;                /* 31.2 */
+  background-color: var(--c-white);
+  box-shadow: inset 0 0 0 0.15rem var(--c-cta-border);
+}
+
+.footer__social-item {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.footer__social-icon--linkedin {
+  width: 3.875rem;                       /* 62 */
+  height: 0.979375rem;                   /* 15.67 */
+  object-fit: fill;
+}
+
+.footer__social-icon--behance {
+  width: 1.9375rem;                      /* 31 */
+  height: 1.9375rem;
+  object-fit: contain;
+}
+
+.footer__social-icon--mail {
+  width: 1.9375rem;                      /* 31 */
+  height: 1.9375rem;
+  object-fit: cover;
+}
+
+/* #1117:1982 — 563 wide · column · right-aligned · gap 16 */
+.footer__end {
+  width: 35.1875rem;                     /* 563 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;                             /* 16 */
+}
+
+/* #1117:1983 — 550 wide · row · gap 3 */
+.footer__nav {
+  width: 34.375rem;                      /* 550 */
+  display: flex;
+  align-items: center;
+  gap: 0.1875rem;                        /* 3 */
+}
+
+/* Archivo Medium 16 in fixed 21-tall slots — #1117:1984 … :1987 */
+.footer__link {
+  flex: none;
+  height: 1.3125rem;                     /* 21 */
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;                       /* 16 */
+  line-height: 1.125;                    /* 18 text box */
+  white-space: nowrap;
+  text-decoration: none;
+  background-image: var(--g-nav);
+}
+
+.footer__link--home        { width: 4.375rem; }   /* 70  */
+.footer__link--problem     { width: 9.3125rem; }  /* 149 */
+.footer__link--walkthrough { width: 12.375rem; }  /* 198 */
+.footer__link--impact      { width: 6.375rem; }   /* 102 */
+
+/* #1117:1988 — the wordmark is wider than its 563 column and packs left */
+.footer__wordmark {
+  align-self: flex-start;
+  width: 36.184375rem;                   /* 578.95 */
+  height: 6.6875rem;                     /* 107 */
+  object-fit: fill;
+  opacity: 0.2;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal
+
+   One motion for desktop and mobile: fade + a short rise. Hidden only when
+   JS is present so the page still reads without script. Stagger is delay
+   only — same duration and easing on every block.
+   -------------------------------------------------------------------------- */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition:
+    opacity var(--reveal-duration) var(--reveal-ease),
+    transform var(--reveal-duration) var(--reveal-ease);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.js .reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero title is the first read. Same fade-up as everything else, just
+   staggered across the eyebrow and each word so it lands in sequence. */
+.js .hero__heading.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .hero__heading.reveal .hero__eyebrow,
+.js .hero__heading.reveal .hero__word {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+}
+
+.js .hero__heading.is-in .hero__eyebrow {
+  animation: hero-line-eyebrow var(--reveal-duration) var(--reveal-ease) both;
+}
+
+.js .hero__heading.is-in .hero__word {
+  animation: hero-line-word var(--reveal-duration) var(--reveal-ease) both;
+}
+
+.js .hero__heading.is-in .hero__word:nth-child(1) { animation-delay: 0.1s; }
+.js .hero__heading.is-in .hero__word:nth-child(2) { animation-delay: 0.16s; }
+.js .hero__heading.is-in .hero__word:nth-child(3) { animation-delay: 0.22s; }
+.js .hero__heading.is-in .hero__word:nth-child(4) { animation-delay: 0.28s; }
+.js .hero__heading.is-in .hero__word:nth-child(5) { animation-delay: 0.34s; }
+
+@keyframes hero-line-eyebrow {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+  to {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-line-word {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__content > .reveal:nth-child(1) { --reveal-delay: 0s; }
+.hero__content > .reveal:nth-child(2) { --reveal-delay: 0.48s; }
+.hero__content > .reveal:nth-child(3) { --reveal-delay: 0.62s; }
+.hero .showcase.reveal { --reveal-delay: 0.28s; }
+
+.compare > .reveal:nth-child(1) { --reveal-delay: 0s; }
+.compare > .reveal:nth-child(2) { --reveal-delay: 0.1s; }
+
+.bento > .reveal:nth-child(1) { --reveal-delay: 0s; }
+.bento > .reveal:nth-child(2) { --reveal-delay: 0.07s; }
+.bento > .reveal:nth-child(3) { --reveal-delay: 0.14s; }
+.bento > .reveal:nth-child(4) { --reveal-delay: 0.21s; }
+
+.stat--speed.reveal   { --reveal-delay: 0.04s; }
+.stat--trust.reveal   { --reveal-delay: 0.1s; }
+.stat--clarity.reveal { --reveal-delay: 0.16s; }
+.stat--access.reveal  { --reveal-delay: 0.22s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .js .hero__heading.reveal .hero__eyebrow,
+  .js .hero__heading.reveal .hero__word,
+  .js .hero__heading.is-in .hero__word {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .js .hero__heading.reveal .hero__eyebrow,
+  .js .hero__heading.is-in .hero__eyebrow {
+    opacity: 0.6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Pointer hover
+
+   Only a few surfaces, and only when a real mouse can hover. Touch is left
+   alone so taps do not stick. Cards lift after they have revealed so the
+   scroll motion and the hover do not fight.
+   -------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .nav__link,
+  .footer__link,
+  .connect__item,
+  .connect__icon,
+  .footer__social-item,
+  .footer__cta,
+  .wt-switch__btn {
+    transition:
+      filter var(--hover-duration) var(--reveal-ease),
+      opacity var(--hover-duration) var(--reveal-ease),
+      transform var(--hover-duration) var(--reveal-ease),
+      color var(--hover-duration) var(--reveal-ease);
+  }
+
+  .nav__link:hover {
+    opacity: 0.92;
+    filter: none;
+  }
+
+  .nav__link.is-active:hover {
+    opacity: 1;
+  }
+
+  .footer__link:hover {
+    filter: brightness(1.55);
+  }
+
+  .connect__item:hover {
+    transform: translateY(-0.15rem);
+  }
+
+  .connect__item:hover .connect__icon {
+    transform: scale(1.1);
+    filter: brightness(1.15) drop-shadow(0 0.2rem 0.55rem rgba(0, 102, 255, 0.45));
+  }
+
+  .footer__social-item:hover {
+    transform: translateY(-0.125rem);
+    filter: brightness(1.05);
+  }
+
+  .footer__social-item:hover .footer__social-icon--linkedin,
+  .footer__social-item:hover .footer__social-icon--behance {
+    transform: scale(1.1);
+    filter: brightness(1.15) drop-shadow(0 0.15rem 0.4rem rgba(0, 102, 255, 0.4));
+  }
+
+  .wt-switch__btn:not(.is-active):hover {
+    color: var(--c-white);
+  }
+
+  .js .compare__card.is-in,
+  .js .bento__card.is-in,
+  .js .stat.is-in {
+    transition:
+      opacity var(--reveal-duration) var(--reveal-ease),
+      transform var(--hover-duration) var(--reveal-ease),
+      filter var(--hover-duration) var(--reveal-ease);
+    transition-delay: 0s;
+  }
+
+  .js .compare__card.is-in:hover,
+  .js .bento__card.is-in:hover,
+  .js .stat.is-in:hover {
+    transform: translateY(-0.375rem);    /* 6 */
+    filter: brightness(1.08);
+  }
+
+  .js .bento__card.is-in:hover {
+    z-index: 2;
+  }
+}

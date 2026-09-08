@@ -1,0 +1,883 @@
+/* ==========================================================================
+   Clariva — phone overlay
+
+   Loaded after style.css. Desktop (wider than 768px) is unchanged.
+   Remove this file (and its <link>) to restore the original layout.
+   ========================================================================== */
+
+.masthead__menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 16px !important;
+  }
+
+  html,
+  body,
+  .page {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  .frame,
+  .stage {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+  }
+
+  .wt-phone img,
+  .wt-phone video {
+    max-width: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Masthead
+     -------------------------------------------------------------------------- */
+
+  .masthead {
+    margin-bottom: 0;
+    padding: 0.9rem 1.1rem;
+  }
+
+  .masthead__container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .masthead__logo {
+    margin-right: auto;
+  }
+
+  .masthead__connect {
+    display: flex;
+    order: 1;
+    gap: 0.65rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .connect__icon--linkedin {
+    width: 2.75rem;
+    height: 0.7rem;
+  }
+
+  .connect__icon--behance {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .masthead__menu {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    order: 2;
+    gap: 5px;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.45rem 0.5rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background: var(--c-connect-surface);
+    cursor: pointer;
+  }
+
+  .masthead__menu span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    border-radius: 1px;
+  }
+
+  .masthead__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1rem 1rem;
+    background: rgba(0, 0, 0, 0.94);
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+  }
+
+  .masthead.is-open .masthead__nav {
+    display: flex;
+  }
+
+  .nav__link {
+    height: auto;
+    padding: 1.05rem 0.25rem;
+    font-size: 1rem;
+    white-space: normal;
+  }
+
+  /* --------------------------------------------------------------------------
+     Shared section reset — leave the Figma canvas, use normal flow
+     -------------------------------------------------------------------------- */
+
+  .hero,
+  .pv,
+  .framework,
+  .walkthrough,
+  .impact,
+  .footer {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    padding: 4.5rem 1.4rem 5rem;
+    scroll-margin-top: 4.5rem;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.75rem;
+    padding-top: 1.85rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .tag {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+  }
+
+  .section-title,
+  .section-title strong {
+    width: auto !important;
+    height: auto !important;
+  }
+
+  .section-lede {
+    width: auto !important;
+    height: auto !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Hero
+     -------------------------------------------------------------------------- */
+
+  .hero__backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 72%;
+    min-height: 24rem;
+    object-fit: cover;
+    border-radius: 0 0 1.5rem 1.5rem;
+    opacity: 0.55;
+  }
+
+  .hero__content {
+    display: contents;
+  }
+
+  .hero__heading,
+  .hero__lede,
+  .meta,
+  .showcase {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__heading {
+    order: 1;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .hero__title {
+    width: auto;
+    letter-spacing: -0.03em;
+  }
+
+  .hero__eyebrow {
+    text-align: center;
+  }
+
+  .hero__lede {
+    order: 2;
+    width: auto;
+  }
+
+  .meta {
+    order: 4;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.35rem 1.25rem;
+    padding: 1.4rem 1.25rem;
+    margin-top: 0.15rem;
+  }
+
+  .meta__item {
+    gap: 0.55rem;
+  }
+
+  .meta__item,
+  .meta__item--role,
+  .meta__item--platform,
+  .meta__item--domain,
+  .meta__item--tools {
+    width: calc(50% - 0.65rem);
+  }
+
+  .meta__value {
+    white-space: normal;
+  }
+
+  .showcase {
+    order: 3;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(18.75rem, calc(100vw - 2.5rem));
+    height: auto;
+    aspect-ratio: 247.31 / 537.33;
+    margin: 0.35rem auto 0;
+    transform: none;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .showcase__video {
+    display: none;
+  }
+
+  .showcase__device {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.989515rem;
+  }
+
+  .showcase__device-screen {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  .showcase__device-bezel {
+    position: absolute;
+    left: -5.567%;
+    top: -2.3%;
+    width: 111.135%;
+    height: 104.603%;
+    max-width: none;
+    object-fit: fill;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* --------------------------------------------------------------------------
+     Problem & Vision
+     -------------------------------------------------------------------------- */
+
+  .pv__pattern {
+    display: none;
+  }
+
+  .pv__header,
+  .framework__header,
+  .walkthrough__header,
+  .impact__header {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.35rem;
+    text-align: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .walkthrough__header {
+    gap: 1.75rem;
+    margin-bottom: 0;
+  }
+
+  .pv__header .section-title,
+  .framework__title,
+  .walkthrough__title,
+  .impact__title {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .framework__lede,
+  .walkthrough__lede,
+  .impact__lede,
+  .pv__lede {
+    position: relative;
+    left: auto;
+    top: auto;
+    align-self: stretch;
+  }
+
+  .compare {
+    position: relative;
+    left: auto;
+    top: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2.15rem;
+    margin-top: 2.65rem;
+  }
+
+  .compare__card {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .compare__banner {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 3.5rem;
+    padding: 0.65rem 0.85rem 0.65rem 0.75rem;
+    border-radius: 1.25rem 1.25rem 0 0;
+    gap: 0.4rem;
+  }
+
+  .compare__banner-title,
+  .compare__banner-title--problem {
+    width: auto;
+    text-align: left;
+  }
+
+  .compare__body {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    padding: 1.5rem 1.15rem 1.7rem;
+  }
+
+  .compare__list {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    gap: 1.7rem;
+  }
+
+  .compare__item,
+  .compare__item--tall,
+  .compare__item--short,
+  .compare__item--mid {
+    position: relative;
+    height: auto;
+    padding-bottom: 0.55rem;
+  }
+
+  .compare__label {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .compare__label-text {
+    white-space: normal;
+  }
+
+  .compare__desc,
+  .compare__desc--p1,
+  .compare__desc--p2,
+  .compare__desc--p3,
+  .compare__desc--s1,
+  .compare__desc--s2,
+  .compare__desc--s3 {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    margin: 0.5rem 0 0 2.125rem;
+  }
+
+  .compare__dot {
+    display: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Design Framework
+     -------------------------------------------------------------------------- */
+
+  .framework__glow {
+    display: none;
+  }
+
+  .bento {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.85rem;
+    margin-top: 2.85rem;
+  }
+
+  .bento__card,
+  .bento__card--trust,
+  .bento__card--family,
+  .bento__card--access,
+  .bento__card--clarity {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bento__orb {
+    display: none;
+  }
+
+  .bento__art,
+  .bento__art--family,
+  .bento__art--access,
+  .bento__art--trust,
+  .bento__art--clarity {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    max-height: 12rem;
+    object-fit: contain;
+    box-shadow: none;
+  }
+
+  .bento__text--family,
+  .bento__text--access,
+  .bento__text--trust,
+  .bento__text--clarity {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    padding: 1.5rem 1.25rem 1.65rem;
+    gap: 0.8rem;
+  }
+
+  .bento__title--trust,
+  .bento__desc--trust,
+  .bento__title--clarity,
+  .bento__desc--clarity {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    text-align: left;
+  }
+
+  .bento__desc,
+  .bento__desc--trust,
+  .bento__desc--clarity {
+    width: auto;
+  }
+
+  /* --------------------------------------------------------------------------
+     Walkthrough — same JS, simpler stack. Only the front phone is shown.
+     -------------------------------------------------------------------------- */
+
+  .walkthrough__deco {
+    display: none;
+  }
+
+  .walkthrough__heading {
+    width: 100%;
+    height: auto;
+  }
+
+  .walkthrough__tag {
+    left: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wt-switch {
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .wt-switch__btn {
+    width: auto;
+    min-width: 5.5rem;
+    height: 2.75rem;
+    padding: 0 0.9rem;
+    font-size: 0.8125rem;
+  }
+
+  .walkthrough__stage {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    margin-top: 2.6rem;
+  }
+
+  .walkthrough__track {
+    width: 100%;
+    gap: 0;
+    transform: none !important;
+  }
+
+  .wt-panel {
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+
+  .wt-panel[aria-hidden="false"] {
+    display: block;
+  }
+
+  .wt-phones,
+  .wt-phones--a,
+  .wt-phones--b,
+  .wt-phones--c {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(18.75rem, calc(100vw - 2.5rem));
+    height: auto;
+    aspect-ratio: 247.31 / 537.33;
+    margin: 1.75rem auto 2.35rem;
+  }
+
+  .wt-phone--mid,
+  .wt-phone--far {
+    display: none !important;
+  }
+
+  .wt-phone--near,
+  .wt-phones--c .wt-phone--near {
+    left: 0 !important;
+    top: 0;
+    bottom: auto;
+    width: 100% !important;
+    height: 100% !important;
+    filter: none;
+    box-shadow: none;
+    border-radius: 1.989515rem;
+  }
+
+  .wt-phone--near .wt-phone__media,
+  .wt-phone--near .wt-phone__video,
+  .wt-phone--near .wt-phone__dim {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  .wt-phone--near .wt-phone__bezel {
+    left: -5.567%;
+    top: -2.3%;
+    width: 111.135%;
+    height: 104.603%;
+    max-width: none;
+    object-fit: fill;
+  }
+
+  .wt-copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    gap: 1.45rem;
+  }
+
+  .wt-copy__title {
+    font-size: 1.35rem;
+  }
+
+  .wt-copy__body {
+    height: auto;
+    overflow: visible;
+  }
+
+  .wt-chip {
+    width: 100%;
+  }
+
+  .wt-notes {
+    width: 100%;
+    height: 7.5rem;
+  }
+
+  .wt-notes__track {
+    gap: 0;
+  }
+
+  .wt-notes__item,
+  .wt-notes__item:first-child,
+  .wt-notes__item:not(:first-child) {
+    width: 100%;
+    height: 7.5rem;
+  }
+
+  .wt-panel.is-step-1 .wt-notes__track {
+    transform: translateY(-7.5rem);
+  }
+
+  .wt-panel.is-step-2 .wt-notes__track {
+    transform: translateY(-15rem);
+  }
+
+  .wt-pager {
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .wt-pager__btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .wt-pager__chevron {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     UX Impact
+     -------------------------------------------------------------------------- */
+
+  .impact__tag {
+    width: auto;
+  }
+
+  .stat,
+  .stat--speed,
+  .stat--clarity,
+  .stat--trust,
+  .stat--access {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 22rem;
+    height: 22.5rem;
+    margin: 2.35rem auto 0;
+  }
+
+  .stat--clarity .stat__label {
+    white-space: normal;
+  }
+
+  /* --------------------------------------------------------------------------
+     Footer
+     -------------------------------------------------------------------------- */
+
+  .footer__row {
+    position: relative;
+    left: auto;
+    top: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3.15rem;
+  }
+
+  .footer__contact,
+  .footer__actions,
+  .footer__end,
+  .footer__nav {
+    width: 100%;
+    align-items: center;
+  }
+
+  .footer__shout {
+    text-align: center;
+  }
+
+  .footer__kicker {
+    text-align: center;
+  }
+
+  .footer__nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem 0.9rem;
+  }
+
+  .footer__link,
+  .footer__link--home,
+  .footer__link--problem,
+  .footer__link--walkthrough,
+  .footer__link--impact {
+    width: auto;
+    white-space: normal;
+  }
+
+  .footer__wordmark {
+    width: 100%;
+    height: auto;
+    align-self: center;
+  }
+
+  /* --------------------------------------------------------------------------
+     Type scale — one quiet ladder so sizes do not jump between sections
+     -------------------------------------------------------------------------- */
+
+  .hero__title,
+  .section-title,
+  .section-title strong,
+  .wt-copy__title,
+  .footer__shout,
+  .stat__figure {
+    text-wrap: balance;
+    line-height: 1.28;
+  }
+
+  .hero__eyebrow,
+  .tag__label,
+  .wt-copy__kicker,
+  .footer__kicker {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+  }
+
+  .hero__title {
+    font-size: 1.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title,
+  .section-title strong {
+    font-size: 1.625rem;
+  }
+
+  .section-lede,
+  .hero__lede,
+  .wt-notes__item,
+  .stat__body,
+  .bento__desc,
+  .bento__desc--trust,
+  .bento__desc--clarity {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .nav__link,
+  .footer__link {
+    font-size: 0.9375rem;
+  }
+
+  .meta__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  .meta__value {
+    font-size: 0.9375rem;
+    line-height: 1.3;
+  }
+
+  .compare__banner-title,
+  .bento__title {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  .compare__label-text {
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+
+  .compare__desc {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .wt-copy__title {
+    font-size: 1.35rem;
+  }
+
+  .wt-switch__btn {
+    font-size: 0.875rem;
+  }
+
+  .wt-chip__label {
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
+
+  .stat__figure {
+    font-size: 1.5rem;
+    -webkit-text-stroke-width: 0.04rem;
+  }
+
+  .stat__label {
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .footer__shout {
+    font-size: 2.125rem;
+    line-height: 1.15;
+  }
+
+  .footer__kicker {
+    -webkit-text-stroke: 0;
+  }
+}

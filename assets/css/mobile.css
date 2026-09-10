@@ -44,7 +44,8 @@
   }
 
   .wt-phone img,
-  .wt-phone video {
+  .wt-phone video,
+  .showcase__device video {
     max-width: none;
   }
 
@@ -275,10 +276,11 @@
     position: relative;
     left: auto;
     top: auto;
-    width: min(18.75rem, calc(100vw - 2.5rem));
+    width: min(17.25rem, calc(100vw - 2.5rem));
     height: auto;
-    aspect-ratio: 247.31 / 537.33;
-    margin: 0.35rem auto 0;
+    aspect-ratio: 393 / 852;
+    margin: 0.5rem auto 0.25rem;
+    padding: 0;
     transform: none;
     overflow: visible;
     background: transparent;
@@ -292,31 +294,61 @@
     display: block;
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 1.989515rem;
+  }
+
+  .showcase__device-shell {
+    position: absolute;
+    inset: 0;
+    border-radius: 2.85rem;
+    background: #1c1c1e;
+    box-shadow:
+      inset 0 0 0 0.065rem rgba(255, 255, 255, 0.22),
+      0 1.15rem 2.4rem rgba(0, 0, 0, 0.48);
   }
 
   .showcase__device-screen {
     position: absolute;
+    inset: 0.22rem;
+    overflow: hidden;
+    border-radius: 2.62rem;
+    background-color: #000;
+  }
+
+  .showcase__device-video {
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    max-width: none;
     object-fit: cover;
-    border-radius: inherit;
+    object-position: center center;
+    background-color: #000;
   }
 
-  .showcase__device-bezel {
+  .showcase__device-island {
     position: absolute;
-    left: -5.567%;
-    top: -2.3%;
-    width: 111.135%;
-    height: 104.603%;
-    max-width: none;
-    object-fit: fill;
+    top: 1.15%;
+    left: 50%;
+    z-index: 3;
+    width: 31%;
+    height: 3.35%;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #000;
+    box-shadow: 0 0 0 0.05rem rgba(0, 0, 0, 0.8);
     pointer-events: none;
-    z-index: 2;
+  }
+
+  .showcase__device-island::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 11%;
+    width: 0.42rem;
+    height: 0.42rem;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2a3a58 0%, #0a1220 70%);
+    box-shadow: inset 0 0 0 0.04rem rgba(80, 120, 180, 0.25);
   }
 
   /* --------------------------------------------------------------------------
@@ -346,7 +378,7 @@
 
   .walkthrough__header {
     gap: 1.75rem;
-    margin-bottom: 0;
+    margin-bottom: 0.35rem;
   }
 
   .pv__header .section-title,
@@ -583,7 +615,7 @@
     width: 100%;
     height: auto;
     overflow: visible;
-    margin-top: 2.6rem;
+    margin-top: 2rem;
   }
 
   .walkthrough__track {
@@ -615,7 +647,7 @@
     width: min(18.75rem, calc(100vw - 2.5rem));
     height: auto;
     aspect-ratio: 247.31 / 537.33;
-    margin: 0.85rem auto 2.35rem;
+    margin: 0.25rem auto 2.35rem;
     touch-action: pan-y;
   }
 
@@ -672,6 +704,9 @@
     width: 100%;
     align-items: center;
     text-align: center;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 1.1rem 1.35rem 1.85rem;
   }
 
   .wt-copy__title {

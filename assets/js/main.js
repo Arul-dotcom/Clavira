@@ -398,15 +398,58 @@
   /* ------------------------------------------------------------------
      Showcase video
 
-     Plays through exactly once and freezes on its final frame. Hover
-     starts it on pointer devices; leaving early does not interrupt
-     playback. Touch devices start it when the video scrolls into view.
-     The file is warmed so the first pointerenter does not wait on decode.
+     Desktop: cinema mockup plays once on hover and freezes on the last
+     frame. Phone: a single in-device clip plays once when it enters view.
      ------------------------------------------------------------------ */
 
   var isPhone = window.matchMedia("(max-width: 768px)").matches;
+
+  if (isPhone) {
+    var phoneVideo = document.querySelector(".showcase__device-video");
+    if (!phoneVideo) return;
+
+    var phoneStarted = false;
+    phoneVideo.loop = false;
+    phoneVideo.muted = true;
+
+    function playPhoneOnce() {
+      if (phoneStarted) return;
+      phoneStarted = true;
+      var attempt = phoneVideo.play();
+      if (attempt && typeof attempt.catch === "function") {
+        attempt.catch(function () {
+          phoneStarted = false;
+        });
+      }
+    }
+
+    phoneVideo.addEventListener("ended", function () {
+      phoneVideo.pause();
+    });
+
+    if ("IntersectionObserver" in window) {
+      var phoneObserver = new IntersectionObserver(
+        function (entries) {
+          for (var i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+              playPhoneOnce();
+              phoneObserver.disconnect();
+              return;
+            }
+          }
+        },
+        { threshold: 0.4 }
+      );
+      phoneObserver.observe(phoneVideo);
+    } else {
+      playPhoneOnce();
+    }
+
+    return;
+  }
+
   var video = document.querySelector(".showcase__video");
-  if (!video || isPhone) return;
+  if (!video) return;
 
   var showcase = video.closest(".showcase") || video;
   var started = false;
